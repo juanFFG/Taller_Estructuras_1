@@ -9,6 +9,7 @@ namespace Taller_Estructuras_1
     public class Mano
     {
         private List<Carta> cartas;
+        public bool activo = true;
 
         public Mano()
         {

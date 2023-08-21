@@ -68,26 +68,19 @@ class Program
             Console.WriteLine("Cartas del jugador " + (i + 1) + ": " + carta1 + ", " + carta2);
         }
 
-        int cont_Plant = 0;
-        int indiceJugador;
         int numJugador;
         bool finRonda = false;
-        //bool todosPasaron = true; // Sirve para verificar si todos los jugadores se pasaron de 21
 
         List<Mano> manosAEliminar = new List<Mano>(); // lista para marcar manos que se pasan de 21
 
         while (!finRonda)
         {
-            foreach (Mano mano in manos)
+            for (int i = 0; i < manos.Count; i++)
             {
-                indiceJugador = manos.IndexOf(mano);
-                numJugador = indiceJugador + 1;
+                Mano mano = manos[i];
+                numJugador = i + 1;
 
-                if (manosAEliminar.Contains(mano))
-                {
-                    continue; // Saltar jugadores que ya se pasaron de 21
-                }
-
+                if (!manos[i].activo) continue;
 
                 Console.Write("\n" + $"Jugador {numJugador}, pide o pasa? (p/P): ");
                 string accion;
@@ -111,7 +104,7 @@ class Program
                     {
                         Console.WriteLine("Lo siento, perdiste!");
                         manosAEliminar.Add(mano);
-                        cont_Plant++;
+                        mano.activo = false;
                     }
                     else if (mano.Valor() == 21)
                     {
@@ -125,13 +118,13 @@ class Program
                 {
                     Console.WriteLine("No tomo carta");
                     manosAEliminar.Add(mano);
-                    cont_Plant++;
+                    mano.activo = false;
                 }
+            }
 
-                if (cont_Plant == numJugadores)
-                {
-                    finRonda = true;
-                }
+            if (manosAEliminar.Count == manos.Count)
+            {
+                finRonda = true;
             }
         }
 
